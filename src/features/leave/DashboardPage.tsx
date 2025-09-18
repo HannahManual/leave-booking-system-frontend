@@ -4,6 +4,8 @@ export default function DashboardPage() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
   const name = user.name || "User";
+  console.log("USER OBJECT:", localStorage.getItem("user"));
+  console.log("ROLE:", role);
 
   const adminDashboard = (
     <div>
@@ -30,5 +32,5 @@ export default function DashboardPage() {
     </div>
   );
 
-  return role === "admin" ? adminDashboard : employeeDashboard;
+  return role === 3 ? adminDashboard : employeeDashboard;
 }

@@ -23,6 +23,10 @@ export default function LoginPage() {
     },
     onSuccess: (data) => {
       const { token, role } = data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role.toString());
+      window.location.href = "/dashboard";
+      console.log("Login successful, token and role stored in localStorage");
 
       // Save both token and role to localStorage
       localStorage.setItem("token", token);
