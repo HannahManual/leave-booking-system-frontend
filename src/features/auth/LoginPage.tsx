@@ -1,76 +1,61 @@
-import React, { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-// Optional: type for decoded token if needed
+export const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  // React Query mutation for login
-  const loginMutation = useMutation({
-    mutationFn: async () => {
-      console.log("Attempting login with", { email, password });
-      const res = await axios.post("http://localhost:8900/api/login", {
-        email,
-        password
-      }, {
-        headers: { "Content-Type": "application/json" },
-    });
-      return res.data; // contains { token, role }
-    },
-    onSuccess: (data) => {
-      const { token, role } = data;
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role.toString());
-      window.location.href = "/dashboard";
-      console.log("Login successful, token and role stored in localStorage");
-
-      // Save both token and role to localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify({ role }));
-
-      // Redirect to dashboard
-      window.location.href = "/dashboard";
-    },
-    onError: () => {
-      setError("Invalid email or password. Try again.");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    loginMutation.mutate();
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        { email, password },
+        {
+          withCredentials: true, // Required for sending cookies!
+        }
+      );
+
+      // ✅ redirect or set role if needed
+      if (res.status === 202) {
+        navigate('/dashboard');
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err.response?.data?.error || 'Login failed');
+    }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", paddingTop: "60px" }}>
+    <div>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Email</label>
+      <form onSubmit={handleLogin}>
+        <label>Email:
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value.trim())}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Password</label>
+        </label>
+        <br />
+        <label>Password:
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value.trim())}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
+        </label>
+        <br />
         <button type="submit">Login</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
-}
+};

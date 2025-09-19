@@ -1,0 +1,77 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(128, 0, 128, 0.1);
+}
+
+h2 {
+  color: #4b0082;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submitBtn {
+  margin-top: 1.5rem;
+  background-color: #800080;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color: #9932cc;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.success {
+  color: green;
+  margin-top: 1rem;
+}
+
+.remaining {
+  font-weight: bold;
+  color: #800080;
+  margin-bottom: 1rem;
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.bottomRight button {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.bottomRight button:hover {
+  background-color: #4a148c;
+}

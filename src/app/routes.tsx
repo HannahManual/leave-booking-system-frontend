@@ -1,13 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
-import LoginPage from '../features/auth/LoginPage'
+import { LoginPage } from '../features/auth/LoginPage'
 import DashboardPage from '../features/leave/DashboardPage'
 import NotFoundPage from '../components/NotFoundPage'
+import LeaveRequestFormPage from '../features/leave/LeaveRequestFormPage'
+import ViewRequestsPage from '../features/leave/ViewRequestsPage'
+import dashboardLoader from '../features/leave/DashboardPage'
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} loader={dashboardLoader} />
+      <Route path="/request-leave" element={<LeaveRequestFormPage />} />
+      <Route path="/view-requests" element={<ViewRequestsPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )

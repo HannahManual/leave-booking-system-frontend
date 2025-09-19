@@ -1,0 +1,30 @@
+/* src/pages/LoginPage.module.css */
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+button {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
