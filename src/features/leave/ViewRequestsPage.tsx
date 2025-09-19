@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./ViewRequestsPage.module.css";
 
@@ -9,14 +10,17 @@ type LeaveRequest = {
   startDate: string;
   endDate: string;
   status: string;
-  firstName: string;
-  surname: string;
+  user: {
+    firstName: string;
+    surname: string;
+  };
 };
 
 export default function ViewRequestsPage() {
   const [requests, setRequests] = useState<LeaveRequest[]>([]);
   const [error, setError] = useState("");
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const userRoleId = parseInt(localStorage.getItem("roleId") || "0");
   const isManagerOrAdmin = userRoleId === 2 || userRoleId === 3;
@@ -42,11 +46,11 @@ export default function ViewRequestsPage() {
     newStatus: string
   ) => {
     try {
+      console.log("Calling:", `/api/leave/status/${leaveRequestId}`, "with status", newStatus);
       await axios.put(
-        "/api/status",
+        `http://localhost:8900/api/leave/status/${leaveRequestId}`,
         {
-          leaveRequestId,
-          newStatus,
+          status: newStatus,
         },
         {
           withCredentials: true,
@@ -86,7 +90,7 @@ export default function ViewRequestsPage() {
         <tbody>
           {requests.map((req) => (
             <tr key={req.leaveRequestId}>
-              <td>{`${req.firstName} ${req.surname}`}</td>
+              <td>{`${req.user.firstName} ${req.user.surname}`}</td>
               <td>{req.type}</td>
               <td>{req.startDate}</td>
               <td>{req.endDate}</td>
@@ -173,6 +177,24 @@ export default function ViewRequestsPage() {
           ))}
         </tbody>
       </table>
+
+      {/* Back to Dashboard Button */}
+      <div style={{ marginTop: "2rem", textAlign: "center" }}>
+        <button
+          onClick={() => navigate("/dashboard")}
+          style={{
+            backgroundColor: "#6a0dad",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
     </div>
   );
 }

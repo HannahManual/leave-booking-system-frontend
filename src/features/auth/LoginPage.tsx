@@ -9,26 +9,32 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/login`,
-        { email, password },
-        {
-          withCredentials: true, // Required for sending cookies!
-        }
-      );
-
-      // ✅ redirect or set role if needed
-      if (res.status === 202) {
-        navigate('/dashboard');
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/login`,
+      { email, password },
+      {
+        withCredentials: true,
       }
-    } catch (err: any) {
-      console.error('Login error:', err);
-      setError(err.response?.data?.error || 'Login failed');
+    );
+
+    if (res.status === 202) {
+      // 🧠 Save role ID for frontend logic
+      localStorage.setItem("roleId", res.data.role);
+
+      // Optionally save email
+      // localStorage.setItem("email", res.data.email);
+
+      navigate('/dashboard');
     }
-  };
+  } catch (err: any) {
+    console.error('Login error:', err);
+    setError(err.response?.data?.error || 'Login failed');
+  }
+};
+
 
   return (
     <div>

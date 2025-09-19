@@ -3,27 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
+  const [roleId, setRoleId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("roleId");
 
-    if (!storedUser) {
+    if (!storedRole) {
       navigate("/login");
     } else {
-      setUser(JSON.parse(storedUser));
+      setRoleId(parseInt(storedRole));
+      setLoading(false);
     }
   }, [navigate]);
 
-  if (!user) return <div>Loading...</div>;
-
-  const role = user?.role;
-  const name = user?.name || "User";
+  if (loading) return <div>Loading...</div>;
 
   const adminDashboard = (
     <div>
-      <h2 className={styles.heading}>Welcome {name}!</h2>
+      <h2 className={styles.heading}>Welcome Admin!</h2>
       <div className={styles.dashboardButtons}>
         <button className={styles.button} onClick={() => navigate("/request-leave")}>Make A New Request</button>
         <button className={styles.button} onClick={() => navigate("/view-requests")}>View Requests</button>
@@ -34,9 +33,19 @@ export default function DashboardPage() {
     </div>
   );
 
+  const managerDashboard = (
+    <div>
+      <h2 className={styles.heading}>Welcome Manager!</h2>
+      <div className={styles.dashboardButtons}>
+        <button className={styles.button} onClick={() => navigate("/request-leave")}>Make A New Request</button>
+        <button className={styles.button} onClick={() => navigate("/view-requests")}>View Requests</button>
+      </div>
+    </div>
+  );
+
   const employeeDashboard = (
     <div>
-      <h2 className={styles.heading}>Welcome {name}!</h2>
+      <h2 className={styles.heading}>Welcome Employee!</h2>
       <div className={styles.dashboardButtons}>
         <button className={styles.button} onClick={() => navigate("/request-leave")}>Make A New Request</button>
         <button className={styles.button} onClick={() => navigate("/view-requests")}>View Requests</button>
@@ -46,5 +55,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  return role === 3 ? adminDashboard : employeeDashboard;
-}
+  if (roleId === 3) return adminDashboard;
+  if (roleId === 2) return managerDashboard;
+    return employeeDashboard;
+  }

@@ -13,20 +13,12 @@ export default function LeaveRequestFormPage() {
   const [remainingLeave, setRemainingLeave] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  // Fetch remaining leave balance
+  // ✅ Fetch remaining leave balance (with credentials)
   useEffect(() => {
     const fetchLeave = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("User not authenticated.");
-        return;
-      }
-
       try {
-        const res = await axios.get("http://localhost:8900/api/leave/remaining", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const res = await axios.get("/api/leave/remaining", {
+          withCredentials: true,
         });
         setRemainingLeave(res.data.remainingLeaveHours);
       } catch (err) {
@@ -38,36 +30,31 @@ export default function LeaveRequestFormPage() {
     fetchLeave();
   }, []);
 
-  // Submit new leave request
+  // ✅ Submit new leave request (with credentials)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("User not authenticated.");
-      return;
-    }
 
     try {
       await axios.post(
-        "http://localhost:8900/api/leave",
+        "/api/leave",
         { type: leaveType, startDate, endDate, reason },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { withCredentials: true }
       );
       setSuccess(true);
+      setError("");
     } catch (err: any) {
       console.error("Submit error:", err);
       setError(err.response?.data?.message || "Failed to submit leave request.");
+      setSuccess(false);
     }
   };
 
   return (
     <div className={styles.container}>
       <h2>Request Leave</h2>
-      <p className={styles.remaining}>Remaining Leave: {remainingLeave} hours</p>
+      <p className={styles.remaining}>
+        Remaining Leave: {remainingLeave !== null ? `${remainingLeave} hours` : "Loading..."}
+      </p>
 
       <form onSubmit={handleSubmit}>
         <label>Leave Type:</label>
@@ -78,23 +65,49 @@ export default function LeaveRequestFormPage() {
         </select>
 
         <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          required
+        />
 
         <label>End Date:</label>
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          required
+        />
 
         <label>Reason (optional):</label>
         <textarea value={reason} onChange={(e) => setReason(e.target.value)} />
 
-        <button type="submit" className={styles.submitBtn}>Submit Request</button>
+        <button type="submit" className={styles.submitBtn}>
+          Submit Request
+        </button>
 
         {error && <p className={styles.error}>{error}</p>}
         {success && <p className={styles.success}>Leave request submitted successfully!</p>}
-
-        <div className={styles.backLink}>
-          <button onClick={() => navigate("/dashboard")}>&#8592; Back to Dashboard</button>
-        </div>
       </form>
+
+      {/* Back to Dashboard Button */}
+      <div style={{ marginTop: "2rem", textAlign: "center" }}>
+        <button
+          onClick={() => navigate("/dashboard")}
+          style={{
+            backgroundColor: "#6a0dad",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
     </div>
   );
 }
