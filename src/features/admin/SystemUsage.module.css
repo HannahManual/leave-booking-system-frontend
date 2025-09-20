@@ -1,0 +1,71 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f5f0ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(132, 0, 255, 0.1);
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+  color: #5e00a1;
+  margin-bottom: 1.5rem;
+}
+
+.statsBox {
+  background: white;
+  border: 2px solid #d1b3ff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.statsBox p {
+  margin: 0.8rem 0;
+  font-size: 1.1rem;
+}
+
+.statsBox h3 {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #5e00a1;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  font-size: 1rem;
+  margin: 0.4rem 0;
+}
+
+.status {
+  font-weight: bold;
+  color: #5e00a1;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.backBtn {
+  margin-top: 2rem;
+  padding: 0.7rem 1.5rem;
+  background-color: #8000ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.backBtn:hover {
+  background-color: #5e00a1;
+}

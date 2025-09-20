@@ -1,0 +1,42 @@
+/* DashboardPage.module.css */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.heading {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  font-family: 'Inter', sans-serif;
+  color: #4A148C;
+}
+
+.dashboardButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+.button {
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #7b1fa2;
+  transform: scale(1.05);
+}
