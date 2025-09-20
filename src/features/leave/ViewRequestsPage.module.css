@@ -37,7 +37,8 @@ thead {
   color: white;
 }
 
-th, td {
+th,
+td {
   padding: 0.75rem;
   border: 1px solid #ddd;
   text-align: left;
@@ -60,6 +61,14 @@ tbody tr:nth-child(even) {
   color: purple;
 }
 
+.statusIcon.red {
+  color: red;
+}
+
+.statusIcon.gray {
+  color: gray;
+}
+
 .backLink {
   margin-top: 2rem;
   text-align: center;
@@ -77,4 +86,17 @@ tbody tr:nth-child(even) {
 
 .backLink button:hover {
   background-color: #36005d;
+}
+
+.circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: orange;
+  padding: 0;
+  margin: 0;
+  z-index: 2;
+  position: relative;
 }
