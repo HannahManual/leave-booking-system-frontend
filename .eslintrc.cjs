@@ -6,12 +6,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    'prettier', // disable rules that conflict with Prettier
+    'prettier', 
   ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
-    'react/react-in-jsx-scope': 'off', // not needed in React 17+
+    'react/react-in-jsx-scope': 'off', 
   },
   settings: {
     react: {

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +15,7 @@ export const LoginPage = () => {
 
   try {
     const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/login`,
+      `${baseURL}/login`,
       { email, password },
       {
         withCredentials: true,
@@ -21,11 +23,8 @@ export const LoginPage = () => {
     );
 
     if (res.status === 202) {
-      // 🧠 Save role ID for frontend logic
+    
       localStorage.setItem("roleId", res.data.role);
-
-      // Optionally save email
-      // localStorage.setItem("email", res.data.email);
 
       navigate('/dashboard');
     }

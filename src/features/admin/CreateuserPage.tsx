@@ -9,7 +9,7 @@ export default function CreateUserPage() {
     surname: "",
     email: "",
     password: "",
-    roleId: "1", // Default to Employee
+    roleId: "1", 
     departmentId: "1",
     annualLeaveBalance: "0",
   });

@@ -34,7 +34,23 @@ export default function LeaveRequestFormPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ leaveType, startDate, endDate, reason });
+    setError("");
+    setSuccess(false);
+
+    const today = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (start < new Date(today.setHours(0, 0, 0, 0))) {
+      setError("Start date cannot be in the past");
+      return;
+    }
+
+    if (end < start) {
+      setError("End date must be after start date");
+      return;
+    }
+
     try {
       await axios.post(
         "http://localhost:8900/api/leave",
@@ -43,6 +59,11 @@ export default function LeaveRequestFormPage() {
       );
       setSuccess(true);
       setError("");
+     
+      setLeaveType("PTO");
+      setStartDate("");
+      setEndDate("");
+      setReason("");
     } catch (err: any) {
       console.error("Submit error:", err);
       setError(err.response?.data?.message || "Failed to submit leave request.");
@@ -54,7 +75,7 @@ export default function LeaveRequestFormPage() {
     <div className={styles.container}>
       <h2 id="leave-form-title">Request Leave</h2>
 
-      <p className={styles.remaining}>
+      <p className={styles.remaining} data-testid="remaining-leave">
         Remaining Leave: {loading ? "Loading..." : remainingLeave !== null ? `${remainingLeave} hours` : "N/A"}
       </p>
 
@@ -62,6 +83,7 @@ export default function LeaveRequestFormPage() {
         <label htmlFor="leaveType">Leave Type:</label>
         <select
           id="leaveType"
+          name="leaveType"
           value={leaveType}
           onChange={(e) => setLeaveType(e.target.value)}
           aria-label="Select type of leave"
@@ -74,6 +96,7 @@ export default function LeaveRequestFormPage() {
         <label htmlFor="startDate">Start Date:</label>
         <input
           id="startDate"
+          name="startDate"
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -83,6 +106,7 @@ export default function LeaveRequestFormPage() {
         <label htmlFor="endDate">End Date:</label>
         <input
           id="endDate"
+          name="endDate"
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
@@ -92,6 +116,7 @@ export default function LeaveRequestFormPage() {
         <label htmlFor="reason">Reason (optional):</label>
         <textarea
           id="reason"
+          name="reason"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           aria-label="Reason for leave request"
@@ -105,11 +130,10 @@ export default function LeaveRequestFormPage() {
           Submit Request
         </button>
 
-        {error && <p className={styles.error} role="alert">{error}</p>}
+        {error && <p className={styles.error} role="alert" data-testid="form-error">{error}</p>}
         {success && <p className={styles.success} role="status">Leave request submitted successfully!</p>}
       </form>
 
-      {/* Back to Dashboard Button */}
       <div style={{ marginTop: "2rem", textAlign: "center" }}>
         <button
           onClick={() => navigate("/dashboard")}
@@ -129,4 +153,4 @@ export default function LeaveRequestFormPage() {
       </div>
     </div>
   );
-}
+};

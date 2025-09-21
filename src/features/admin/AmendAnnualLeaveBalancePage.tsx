@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './AmendAnnualLeaveBalancePage.module.css';
 import { useNavigate } from 'react-router-dom';
+
 interface User {
   userId: number;
   firstName: string;
@@ -35,6 +36,7 @@ const AmendAnnualLeaveBalancePage: React.FC = () => {
 
     if (!selectedUserId) {
       setErrorMessage('Please select a user.');
+      setSuccessMessage('');
       return;
     }
 
@@ -60,6 +62,7 @@ const AmendAnnualLeaveBalancePage: React.FC = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <label>Select User:</label>
         <select
+          data-cy="user-select"
           value={selectedUserId ?? ''}
           onChange={(e) => setSelectedUserId(Number(e.target.value))}
         >
@@ -73,6 +76,7 @@ const AmendAnnualLeaveBalancePage: React.FC = () => {
 
         <label>New Balance (hours):</label>
         <input
+          data-cy="new-balance-input"
           type="number"
           value={newBalance}
           onChange={(e) => setNewBalance(Number(e.target.value))}
@@ -80,10 +84,12 @@ const AmendAnnualLeaveBalancePage: React.FC = () => {
           required
         />
 
-        <button type="submit">Update Balance</button>
+        <button data-cy="submit-button" type="submit">Update Balance</button>
       </form>
-          <div style={{ marginTop: "2rem", textAlign: "center" }}>
+
+      <div style={{ marginTop: "2rem", textAlign: "center" }}>
         <button
+          data-cy="back-button"
           onClick={() => navigate("/dashboard")}
           style={{
             backgroundColor: "#6a0dad",
@@ -98,8 +104,9 @@ const AmendAnnualLeaveBalancePage: React.FC = () => {
           ← Back to Dashboard
         </button>
       </div>
-      {successMessage && <p className={styles.success}>{successMessage}</p>}
-      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+
+      {successMessage && <p data-cy="success-message" className={styles.success}>{successMessage}</p>}
+      {errorMessage && <p data-cy="error-message" className={styles.error}>{errorMessage}</p>}
     </div>
   );
 };

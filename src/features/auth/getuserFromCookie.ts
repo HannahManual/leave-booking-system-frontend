@@ -12,9 +12,9 @@ export async function getUserFromCookie(request: Request) {
   });
 
   if (!response.ok) {
-    throw navigate("/login"); // Not logged in? Redirect them.
+    throw navigate("/login"); 
   }
 
-  const user = await response.json(); // Logged in? Get user.
+  const user = await response.json(); 
   return user;
 }

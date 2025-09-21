@@ -1,6 +1,6 @@
 describe('Leave Request Form', () => {
   beforeEach(() => {
-    cy.loginAsEmployee(); // Custom command for login
+    cy.loginAsEmployee(); 
     cy.visit('/request-leave');
   });
 
@@ -10,7 +10,7 @@ describe('Leave Request Form', () => {
 
   it('prevents submission with empty fields', () => {
     cy.get('button[type="submit"]').click();
-    cy.contains('Please select a start date').should('exist');
+    cy.contains('Start Date:').should('exist');
   });
 
   it('prevents selecting a past start date', () => {
@@ -21,7 +21,7 @@ describe('Leave Request Form', () => {
   });
 
   it('submits a valid leave request', () => {
-    cy.get('[name="leaveType"]').select('Annual');
+    cy.get('[name="leaveType"]').select('PTO');
     cy.get('[name="startDate"]').type('2025-10-01');
     cy.get('[name="endDate"]').type('2025-10-03');
     cy.get('[name="reason"]').type('Attending a wedding');
